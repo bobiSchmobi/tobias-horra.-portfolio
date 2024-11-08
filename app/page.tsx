@@ -1,101 +1,184 @@
+import Link from "next/link";
 import Image from "next/image";
+import { createClient } from "next-sanity";
+import { PortableTextBlock } from "next-sanity";
 
-export default function Home() {
+export interface Props {
+  _id: string;
+  title: string;
+  content: PortableTextBlock;
+}
+
+export interface Project {
+  _id: string;
+  title: string;
+  slug: string;
+  image: string;
+  year: string;
+  month: string;
+  info1: string;
+  info2: string;
+  info3: string;
+  bg: string;
+  url: string;
+  content: PortableTextBlock;
+  imgh1: string;
+  imgv1: string;
+  imgv2: string;
+  imgh2: string;
+  imgv3: string;
+  imgh3: string;
+  imgh4: string;
+}
+
+export async function getProjects() {
+  const client = createClient({
+    projectId: "59g1mn44",
+    dataset: "production",
+    apiVersion: "2024-10-19",
+    useCdn: false,
+  });
+  return client.fetch(
+    `*[_type == 'project' ]{
+      _id,
+      title,
+      "slug": slug.current,
+      "image": image.asset->url,
+      year,
+      month,
+      info1,
+      info2,
+      info3,
+      bg,
+      url,
+      content,
+      "imgh1": imgh1.asset->url,
+      "imgv1": imgv1.asset->url,
+      "imgv2": imgv2.asset->url,
+      "imgh2": imgh2.asset->url,
+      "imgv3": imgv3.asset->url,
+      "imgh3": imgh3.asset->url,
+      "imgh4": imgh4.asset->url,
+    }`
+  );
+}
+
+export default async function Home() {
+  const projects = await getProjects();
+
+  // Assuming you want to display the first project
+  const firstProject = projects[0];
+  const secondProject = projects[1];
+  const thirdProject = projects[2];
+  const fourthProject = projects[3];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="backgroundgradient h-screen w-full flex overflow-hidden">
+      <div className="stars1"></div>
+      <div className="stars2"></div>
+      <div className="stars3"></div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+
+
+
+      {/* Wrap both the stars4 and card inside a group */}
+      <div className="group absolute" style={{ top: '20%', left: '13%' }}>
+        {/* Use dynamic slug in the href */}
+        <Link href={`/projects/${firstProject.slug}`}>
+          <div className="stars4 z-20"></div>
+        </Link>
+
+        {/* Add the card with visibility controlled by group hover */}
+        <div className="card z-10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+          <h3 className="text-xl text-white">[guerilla projction]</h3>
+          <h2 className="text-4xl text-white">humaNature</h2>
+          <div className="relative aspect-w-10 aspect-h-16">
             <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+              src={firstProject.imgv1}
+              alt="test"
+              width={2000}
+              height={1000}
+              className="object-cover w-4/5 h-4/5 rounded-xl"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+
+      {/* Wrap both the stars4 and card inside a group */}
+      <div className="group absolute" style={{ top: '63%', left: '25%' }}>
+        {/* Use dynamic slug in the href */}
+        <Link href={`/projects/${secondProject.slug}`}>
+          <div className="stars4 z-20"></div>
+        </Link>
+
+        {/* Add the card with visibility controlled by group hover */}
+        <div className="card z-10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+          <h3 className="text-xl text-white">[web developement]</h3>
+          <h2 className="text-4xl text-white">kurzfilmwoche</h2>
+          <div className="relative aspect-w-10 aspect-h-16">
+            <Image
+              src={secondProject.image}
+              alt="test"
+              width={2000}
+              height={1000}
+              className="object-cover w-4/5 h-4/5 rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+
+
+
+      {/* Wrap both the stars4 and card inside a group */}
+      <div className="group absolute" style={{ top: '46%', left: '48%' }}>
+        {/* Use dynamic slug in the href */}
+        <Link href={`/projects/${thirdProject.slug}`}>
+          <div className="stars4 z-20"></div>
+        </Link>
+
+        {/* Add the card with visibility controlled by group hover */}
+        <div className="card z-10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+          <h3 className="text-xl text-white">[projection mapping]</h3>
+          <h2 className="text-4xl text-white w-max "> rod of asclepius </h2>
+          <div className="relative aspect-w-10 aspect-h-16">
+            <Image
+              src={thirdProject.imgv1}
+              alt="test"
+              width={2000}
+              height={1000}
+              className="object-cover w-4/5 h-4/5 rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+
+    
+
+      {/* Wrap both the stars4 and card inside a group */}
+      <div className="group absolute" style={{ top: '33%', right: '24%' }}>
+        {/* Use dynamic slug in the href */}
+        <Link href={`/projects/${fourthProject.slug}`}>
+          <div className="stars4 z-20"></div>
+        </Link>
+
+        {/* Add the card with visibility controlled by group hover */}
+        <div className="card z-10 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+          <h3 className="text-xl text-white">[interactive art]</h3>
+          <h2 className="text-4xl text-white w-max">active particles</h2>
+          <div className="relative aspect-w-10 aspect-h-16">
+            <Image
+              src={fourthProject.image}
+              alt="test"
+              width={2000}
+              height={1000}
+              className="object-cover w-4/5 h-4/5 rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+
+
     </div>
   );
 }
