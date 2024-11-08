@@ -7,10 +7,6 @@ const Krylon = localFont({
   src: "./fonts/Krylon-Regular.woff",
   weight: "400",
 });
-const Nohemi = localFont({
-  src: "./fonts/Nohemi-Regular.woff",
-  weight: "400",
-});
 
 export const metadata: Metadata = {
   title: "tobias horra. portfolio",
