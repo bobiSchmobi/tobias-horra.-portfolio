@@ -6,7 +6,6 @@ import { PortableTextBlock } from "next-sanity";
 import SmoothScroll from "@/components/ImgScroll"
 import Home from "@/app/page";
 import React from 'react'
-import ReactPlayer from 'react-player'
 
 type Prop = {
 

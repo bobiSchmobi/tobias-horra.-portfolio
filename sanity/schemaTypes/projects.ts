@@ -1,5 +1,4 @@
 import { defineField, defineType } from "sanity";
-import { muxInput } from "sanity-plugin-mux-input";
 
 export const project = defineType({
     name: "project",

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Navbare } from "./components/Navbare";
 import { NavPro } from "./components/NavPro";
 
 const Krylon = localFont({
