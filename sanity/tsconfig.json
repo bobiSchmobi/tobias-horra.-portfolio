@@ -10,7 +10,15 @@
     "moduleDetection": "force",
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+
+    // Add baseUrl to resolve paths
+    "baseUrl": ".",  // This sets the base directory to the root of your project
+
+    // Add paths to map your alias
+    "paths": {
+      "@types/*": ["./typed/*"]  // Maps @types to your ./typed folder
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

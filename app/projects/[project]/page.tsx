@@ -1,86 +1,15 @@
-
-import {PortableText} from "@portabletext/react";
-import { createClient } from "next-sanity";
+import { PortableText } from "@portabletext/react";
 import Image from "next/image";
-import { PortableTextBlock } from "next-sanity";
-import SmoothScroll from "@/components/ImgScroll"
+import SmoothScroll from "@/components/ImgScroll";
 import Home from "@/app/page";
-import React from 'react'
+import React from 'react';
+import { getProject } from "@/sanity/sanity-utils";
 
-type Prop = {
-
-    params:{project:string};
-
+type Props ={
+    params:{project:string}
 };
 
-export interface Props{
-    _id: string;
-    title: string;
-    content: PortableTextBlock;
-};
-
-export interface Project{
-    _id: string;
-    title: string;
-    slug: string;
-    ytvid: string;
-    image: string;
-    year: string;
-    month: string;
-    info1: string;
-    info2: string;
-    info3: string;
-    bg: string;
-    url: string;
-    content: PortableTextBlock;
-    imgh1: string;
-    imgv1: string;
-    imgv2: string;
-    imgh2:string;
-    imgv3: string;
-    imgh3:string;
-    imgh4: string;
-}
-
- export async function getProject(slug:string):Promise<Project> {
-   
-    const client = createClient({
-        projectId: '59g1mn44',
-        dataset: 'production',
-        apiVersion: "2024-09-02",
-        useCdn: false,
-    });
-    return client.fetch(
-        `*[_type == 'project' && slug.current == $slug][0]{
-            _id,
-            title,
-            "slug": slug.current,
-            "image": image.asset->url,
-            year,
-            month,
-            info1,
-            info2,
-            info3,
-            bg,
-            url,
-            content,
-            "imgh1": imgh1.asset->url,
-            "imgv1": imgv1.asset->url,
-            "imgv2": imgv2.asset->url,
-            "imgh2": imgh2.asset->url,
-            "imgv3": imgv3.asset->url,
-            "imgh3": imgh3.asset->url,
-            "imgh4": imgh4.asset->url,
-            
-        }`,
-        {slug}
-    );
-}
-
-
-
-
-export default async function Project({params}:Prop){
+export default async function Project({params}:Props){
     const slug = params.project;
     const project = await getProject(slug);
     console.log(project.bg)
